@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>角色管理</title>
+		<link rel="stylesheet" href="css/layui.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/layui.js" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div class="context">
+               <ul id="dingwei" class="layui-nav"  layui-filter="dingwei">
+				   <li class="layui-nav-item">
+				     <a  href="index.html" >首页</a>
+				   </li>
+								
+					<li class="layui-nav-item">
+					  <a  href="javascript:;" onclick="record()" >答题历史</a>
+					</li>
+	                
+				  <li id="dingwei" class="layui-nav-item">
+				  <a id="answerTopic" href="" >刷题</a>
+				  </li> 
+				  
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="login.html">重新登录</a>	 
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="register.html">注册</a>
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <span id="username"></span>
+						<dd><input id="class_id" type="hidden"  value=""></input></dd>
+					</li>
+		          </ul>
+				  
+				<table class="layui-table">
+				  <colgroup>
+				    <col width="20%">
+				    <col width="40%">
+				    <col width="40%">
+				  </colgroup>
+				  <thead>
+				    <tr>
+				      <th>名称</th>
+				      <th>添加角色</th>
+				      <th>删除角色</th>
+				    </tr> 
+				  </thead>
+				  <tbody id="tbody">
+					   
+				  </tbody>
+				</table>
+				
+				  </div>
+			     
+			<script>
+				layui.use(['element','layer','form'], function(){
+				var form = layui.form;
+				var element = layui.element;
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				initUserRole();
+				
+				
+				});
+			</script>	  
+	</body>
+</html>

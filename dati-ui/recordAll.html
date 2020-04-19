@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>其他人的记录</title>
+		<link rel="stylesheet" href="css/layui.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/layui.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="context">
+               <ul id="dingwei" class="layui-nav"  layui-filter="dingwei">
+				   <li class="layui-nav-item">
+				     <a  href="index.html" >首页</a>
+				   </li>
+				
+					<li class="layui-nav-item">
+					  <a  href="javascript:;" onclick="record()" >答题历史</a>
+					</li>
+					
+					<li id="dingwei" class="layui-nav-item">
+					  <a id="answerTopic" href="" >刷题</a>
+					</li> 
+					
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="login.html">重新登录</a>	 
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="register.html">注册</a>
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <span id="username"></span>
+					  <dl class="layui-nav-child">
+						<dd><input id="class_id" type="hidden"  value=""></input></dd>
+					  </dl>
+					</li>
+		          </ul>
+				   <form class="layui-form" action="" style="margin-top: 10px;">
+					  <div class="layui-form-item">
+						<div class="layui-inline">
+					    <label class="layui-form-label">分类:</label>
+					    <div class="layui-input-inline">
+					      <select id="single">
+					  					    
+					      </select>
+					    </div>
+					 </div>
+					 
+					    <div class="layui-inline">
+					    <label class="layui-form-label">用户:</label>
+					    <div class="layui-input-inline">
+					      <select id="select-user">
+					  					    
+					      </select>
+					    </div>
+					 </div> 
+					
+					
+					<div class="layui-inline">
+					    <div class="layui-input-inline">
+					      <button id="search" type="button" class="layui-btn">查询</button>
+					    </div>
+					  </div>	
+					 </div>	
+				  </from>
+				  <table class="layui-hide" id="table"></table>
+				  </div>
+			     
+			<script>
+				layui.use(['table','element','layer','form'], function(){
+				var form = layui.form;
+				var table = layui.table;	
+				var element = layui.element;
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				initUserRecordAll();
+				$("#search").click(()=>{
+					let group_id = $("#single").val();
+					let user_id= $("#select-user").val();
+					if (group_id == '0' || group_id == null) {
+						layer.msg("分类未选择。");
+						return;
+					}
+					
+					if (user_id == '0' || user_id == null) {
+						layer.msg("用户未选择。");
+						return;
+					}
+					tab();
+					table.reload('table', {
+					             method: 'get'
+					             , where: {
+									   group_topic_id: group_id,
+									   user_id: user_id
+					              }
+					             , page: {
+					                 curr: 1
+					       }
+					});
+				})
+				
+			    
+			  });
+				
+				
+				
+				
+				
+				function tab (){
+					layui.use('layer', function(){
+					var table = layui.table;	
+					table.render({
+						 id: 'table'
+					    ,elem: '#table'
+					    ,url: "http://127.0.0.1:10001/api/topic/pageAllRecord"
+						,request: {
+						    limitName: 'size'
+						  },
+						xhrFields: {
+						       withCredentials:true  //支持附带详细信息(带cookie)
+						   }  
+					    ,cols: [[
+					      {field:'title', width: '30%', title: '题目名称'},
+						  ,{field:'answer', width: '25%', title: '正确答案',}
+					      ,{field:'user_answer', width: '30%', title: '用户答案'}
+					      ,{field:'correct', title: '是否正确', width: '15%'}
+					    ]]
+						,page: true
+						,response: {
+						      statusCode: 200 //重新规定成功的状态码为 200
+						    }
+						    ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+						      return {
+						        "code": res.code, //解析接口状态
+						        "msg": res.message, //解析提示文本
+						        "count": res.total, //解析数据长度
+						        "data": res.results//解析数据列表
+						      };
+						    }
+					  });
+				});
+				}
+			</script>	  
+	</body>
+</html>

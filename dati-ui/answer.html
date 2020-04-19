@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>刷题</title>
+		<link rel="stylesheet" href="css/layui.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/layui.js" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div>
+		     <div style="border: 1px #00F7DE solid; width: 500px; margin: auto; margin-top: 135px; padding: 17px;">
+				 
+				 <form class="layui-form" action="" >
+					 <div class="layui-form-item">
+					   <label class="layui-form-label">分类:</label>
+					   <div class="layui-input-inline">
+					     <select  id="group-select"  lay-verify="required" lay-search lay-filter="group_select">
+					 					    
+					     </select>
+					   </div>
+					 </div>
+					  <!--用于定义标题-->
+					  <div class="layui-form-item">
+					     <label class="layui-form-label">题目：</label>
+					     <div class="layui-input-block">
+					       <textarea disabled="disabled"  name="title" class="layui-textarea"></textarea>
+					     </div>
+					   </div>
+					   <!--内容部分-->
+					  <div id="content">
+						   
+					  </div>
+					  
+					  <div class="layui-form-item">
+					      <div class="layui-input-block">
+							<input name="group_topic_id" type="hidden"  value=""></input> 
+							<input name="title_type" type="hidden"  value=""></input>
+							<input name="topics_id" type="hidden"  value=""></input>
+					        <button type="submit" class="layui-btn"  lay-submit="" lay-filter="next">下一题</button>
+					        <button type="" onclick="window.history.go(-1);return false;" class="layui-btn layui-btn-primary">返回</button>
+					      </div>
+					    </div>		
+				 </form>
+				 
+			 </div>
+			 
+		</div>
+		<script>
+			layui.use(['form','element','layer'], function(){
+			var form = layui.form;
+			var element = layui.element;
+			var $ = layui.jquery;
+			var layer = layui.layer;
+			layer.ready(function(){
+			  let class_id = GetQueryValue("class_id");
+			  queryGroup('group-select' ,class_id);
+			 }); 
+			
+			
+			form.on('select(group_select)', function(data){
+				var value = data.value;
+				if (value != '0') {
+					let user_id = GetQueryValue("user_id");
+				    randomQuery(value, user_id);
+				}
+				});
+			
+			
+			
+			form.on('submit(next)', function(data){
+		         let requestdata = data.field;
+				 let user_id = GetQueryValue("user_id");
+				 requestdata.user_id = user_id;
+				 addRec(requestdata);
+				 return false;
+				 });
+			});
+		</script>
+	</body>			
+</html>	  

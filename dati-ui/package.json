@@ -1,0 +1,13 @@
+{
+  "name": "dati-ui",
+  "version": "1.0.0",
+  "main": "layui.all.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "live-server ./ --port=8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

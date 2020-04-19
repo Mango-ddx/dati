@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>查看答题历史</title>
+		<link rel="stylesheet" href="css/layui.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/layui.js" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="context">
+		     <ul id="dingwei" class="layui-nav"  layui-filter="dingwei">
+				 <li class="layui-nav-item">
+				   <a  href="index.html" >首页</a>
+				 </li>
+				
+		     					
+		     					<li class="layui-nav-item layui-this">
+		     					  <a  href="javascript:;" onclick="record()" >答题历史</a>
+		     					</li>
+								<li id="dingwei" class="layui-nav-item">
+								  <a id="answerTopic" href="" >刷题</a>
+								</li> 
+		     					
+		     					<li class="layui-nav-item" style="float: right;">
+		     					  <a href="login.html">重新登录</a>	 
+		     					</li>
+		     					<li class="layui-nav-item" style="float: right;">
+		     					  <a href="register.html">注册</a>
+		     					</li>
+		     					<li class="layui-nav-item" style="float: right;">
+		     					  <span id="username"></span>
+		     					  <input id="class_id" type="hidden"  value=""></input>
+								  <input id="user_id" type="hidden"  value=""></input>
+		     					</li>
+		         </ul>
+				   <form class="layui-form" action="" style="margin-top: 10px;">
+					  <div class="layui-form-item">
+						<div class="layui-inline">
+					    <label class="layui-form-label">分类:</label>
+					    <div class="layui-input-inline">
+					      <select id="single"  lay-filter="group-select">
+					  					    
+					      </select>
+					    </div>
+					 </div>
+					 
+					  <div class="layui-inline">
+					      <label class="layui-form-label">题目关键字:</label>
+					      <div class="layui-input-inline">
+					        <input id="title" type="text"  placeholder="请输入题目的内容" autocomplete="off" class="layui-input">
+					  	  </div>
+					    </div>
+						
+						<div class="layui-inline">
+						    <div class="layui-input-inline">
+						      <button  id="search" type="button" class="layui-btn layui-btn-normal" >查询</button>
+						    </div>
+						  </div>
+						  
+					</div>
+				  </from>
+				  <table class="layui-hide" id="table"></table>
+				  </div>
+			     
+			<script>
+				layui.use(['table','element','layer','form'], function(){
+				var form = layui.form;
+				var table = layui.table;	
+				var element = layui.element;
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				initUserRecord();
+				//延迟0.2秒再去拿取动态dom的值，否则可能会拿不到，因为render执行时，动态dom还未渲染所以拿不到。
+				setTimeout("tab()", 200);
+			    form.on('select(group-select)', function(data){   
+			      let val = data.value;
+				  let title = $("#title").val();
+			      	  table.reload('table', {
+			      	             method: 'get'
+			      	             , where: {
+			      	                  group_topic_id: val,
+									  title: title
+			      	              }
+			      	             , page: {
+			      	                 curr: 1
+			      	       }
+			      	});
+			  });
+			  
+			  //
+			  $("#search").click(()=>{
+				  let title = $("#title").val();
+				  let sel = $("#single").val();
+				  
+				  table.reload('table', {
+					               method: 'get'
+					               , where: {
+					                    group_topic_id: sel,
+					  				   title: title
+					                }
+					               , page: {
+					                   curr: 1
+					         }
+					  });
+				  })
+			  
+		  });
+				
+				
+				function tab (){
+					layui.use('layer', function(){
+					var table = layui.table;	
+					table.render({
+						 id: 'table'
+					    ,elem: '#table'
+					    ,url: "http://127.0.0.1:10001/api/topic/pageRecord?user_id="+$("#user_id").val()
+						,request: {
+						    limitName: 'size' //每页数据量的参数名，默认：limit
+						  }
+					    ,cols: [[
+					      {field:'title', width: '30%', title: '题目名称' }
+					      ,{field:'answer', width: '25%', title: '正确答案',}
+					      ,{field:'user_answer', width: '25%', title: '你的答案'}
+					      ,{field:'correct', title: '是否正确', width: '10%'}
+					      ,{field:'group_name', width:'10%', title: '所在分类'}
+					    ]]
+						,page: true
+						,response: {
+						      statusCode: 200 //重新规定成功的状态码为 200
+						    }
+						    ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+						      return {
+						        "code": res.code, //解析接口状态
+						        "msg": res.message, //解析提示文本
+						        "count": res.total, //解析数据长度
+						        "data": res.results//解析数据列表
+						      };
+						    }
+					  });
+				});
+				}
+			</script>	  
+	</body>
+</html>

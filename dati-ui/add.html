@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>添加题目</title>
+		<link rel="stylesheet" href="css/layui.css"/>
+		<link rel="stylesheet" href="css/index.css" />
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/layui.js" charset="utf-8"></script>
+		
+	</head>
+	<body>
+		<div class="context">
+		      <ul id="dingwei" class="layui-nav"  layui-filter="dingwei">
+				  
+				  
+				  <li class="layui-nav-item">
+				    <a  href="index.html" >首页</a>
+				  </li>
+				  
+					<li class="layui-nav-item">
+					  <a  href="javascript:;" onclick="record()" >答题历史</a>
+					</li>
+					
+					<li id="dingwei" class="layui-nav-item">
+					  <a id="answerTopic" href="" >刷题</a>
+					</li> 
+					
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="login.html">重新登录</a>	 
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <a href="register.html">注册</a>
+					</li>
+					<li class="layui-nav-item" style="float: right;">
+					  <span id="username"></span>
+					<input id="class_id" type="hidden"  value=""></input>
+					</li>
+		          </ul>
+		          <div class="layui-tab">
+		            <ul class="layui-tab-title">
+		              <li onclick="queryGroup('single', $('#class_id').val())" class="layui-this">选择题</li>
+		              <li onclick="queryGroup('blanks', $('#class_id').val())">填空题</li>
+		              <li onclick="queryGroup('judge', $('#class_id').val())">判断题</li>
+					  <li id="group">分类管理</li>
+		            </ul>
+		            <div class="layui-tab-content">
+						<!--单选题-->
+		              <div class="layui-tab-item layui-show">
+						  
+						   <form class="layui-form" action="">
+						     <div class="layui-form-item">
+						       <label class="layui-form-label">题目：</label>
+						       <div class="layui-input-block">
+						         <textarea lay-verify="required"  name="title" placeholder="请输入题目" class="layui-textarea"></textarea>
+						       </div>
+					         </div>
+				    
+					        <div class="layui-form-item">
+					            <label class="layui-form-label">A:</label>
+					            <div class="layui-input-block">
+					              <input type="text" lay-verify="required" name="a" placeholder="请输入A的内容" autocomplete="off" class="layui-input">
+								  </div>
+					          </div> 
+					 
+					         <div class="layui-form-item">
+					             <label class="layui-form-label">B:</label>
+					             <div class="layui-input-block">
+					               <input type="text" lay-verify="required" name="b" placeholder="请输入B的内容" autocomplete="off" class="layui-input">
+					         	  </div>
+					           </div> 
+					 
+					         <div class="layui-form-item">
+					             <label class="layui-form-label">C:</label>
+					             <div class="layui-input-block">
+					               <input type="text" lay-verify="required" name="c" placeholder="请输入C的内容" autocomplete="off" class="layui-input">
+					         	  </div>
+					           </div> 
+					 
+					         <div class="layui-form-item">
+					             <label class="layui-form-label">D:</label>
+					             <div class="layui-input-block">
+					               <input type="text" lay-verify="required" name="d" placeholder="请输入D的内容" autocomplete="off" class="layui-input">
+					         	  </div>
+					           </div> 
+							 
+							  
+					         <div class="layui-form-item">
+					           <label class="layui-form-label">选项:</label>
+					           <div class="layui-input-block">
+					             <input type="radio" name="answer" value="A" title="A" checked="checked"/>
+					             <input type="radio" name="answer" value="B" title="B"/>
+					             <input type="radio" name="answer" value="C" title="C"/>
+					             <input type="radio" name="answer" value="D" title="D"/>
+					           </div>
+					         </div>	
+								<input name="title_type" type="hidden"  value="1"></input>
+								<div class="layui-form-item">
+								  <label class="layui-form-label">分类:</label>
+								  <div class="layui-input-inline">
+								    <select id="single" name="group_topic_id" lay-verify="required">
+													    
+								    </select>
+								  </div>
+								</div>
+							<div class="layui-form-item">
+							    <div class="layui-input-block">
+							      <button type="submit" class="layui-btn"  lay-submit="" lay-filter="single">立即提交</button>
+							      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							    </div>
+							  </div>		
+				        </form>
+						  
+					  </div>
+					  <!--填空题-->
+		              <div class="layui-tab-item">
+						  <form class="layui-form" action="" id="blank">
+						       <div class="layui-form-item">
+						         <label class="layui-form-label">题目：</label>
+						         <div class="layui-input-block">
+						           <textarea lay-verify="required" name="title" placeholder="请输入题目" class="layui-textarea"></textarea>
+						         </div>
+						       </div>
+						  				    
+						      <div id="answer1" class="layui-form-item">
+						          <label class="layui-form-label">1:</label>
+						          <div class="layui-input-block">
+									<input type="text" lay-verify="required" name="answerBlank" placeholder="请输入答案" autocomplete="off" class="layui-input">
+						            </div>
+								</div> 
+						  	
+							<div class="layui-form-item">
+							    <div class="layui-input-block">
+							     <button id="add" type="button" class="layui-btn">
+							       <i class="layui-icon">&#xe608;</i> 添加
+							     </button>
+						        </div>
+							  </div> 
+							  
+							<div class="layui-form-item">
+							  <label class="layui-form-label">分类:</label>
+							  <div class="layui-input-inline">
+							    <select id="blanks" name="group_topic_id" lay-verify="required">
+												    
+							    </select>
+							  </div>
+							</div>
+						  	<div class="layui-form-item">
+						  	    <div class="layui-input-block">
+								  <input name="title_type" type="hidden"  value="2"></input>
+						  	      <button type="submit" class="layui-btn"  lay-submit="" lay-filter="blank">立即提交</button>
+						  	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						  	    </div>
+						  	  </div>		
+						  </form>
+						  
+						  
+					  </div>
+					  <!--判断题-->
+		              <div class="layui-tab-item">
+						   <form class="layui-form" action="">
+						        <div class="layui-form-item">
+						          <label class="layui-form-label">题目：</label>
+						          <div class="layui-input-block">
+						            <textarea lay-verify="required" name="title" placeholder="请输入题目" class="layui-textarea"></textarea>
+						          </div>
+						        </div>
+						   				    
+						   		<div class="layui-form-item">
+						   		    <label class="layui-form-label">正确:</label>
+						   		    <div class="layui-input-block">
+						   		      <input type="text" lay-verify="required" name="correct" placeholder="请输入内容" autocomplete="off" class="layui-input">
+						   			  </div>
+						   		  </div> 
+						   							 
+						   		 <div class="layui-form-item">
+						   		     <label class="layui-form-label">错误:</label>
+						   		     <div class="layui-input-block">
+						   		       <input type="text" lay-verify="required" name="error" placeholder="请输入内容" autocomplete="off" class="layui-input">
+						   		 	  </div>
+						   		   </div> 					
+						   	     
+								 
+								 <div class="layui-form-item">
+								   <label class="layui-form-label">正确选项:</label>
+								   <div class="layui-input-block">
+								     <input type="radio" name="answer" value="correct" title="正确" checked="checked"/>
+								     <input type="radio" name="answer" value="error" title="错误"/>
+								   </div>
+								 </div>	
+								 
+								 <div class="layui-form-item">
+								   <label class="layui-form-label">分类:</label>
+								   <div class="layui-input-inline">
+								     <select id="judge" name="group_topic_id" lay-verify="required">
+								 					    
+								     </select>
+								   </div>
+								 </div>
+								 
+						   	<div class="layui-form-item">
+						   	    <div class="layui-input-block">
+								  <input name="title_type" type="hidden"  value="3"></input>	
+						   	      <button type="submit" class="layui-btn"  lay-submit="" lay-filter="judgment">立即提交</button>
+						   	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						   	    </div>
+						   	  </div>		
+						   </form>
+						  
+						  
+					  </div>
+		             
+					  <!--分类管理-->
+					  <div class="layui-tab-item">
+						   <form class="layui-form" action="">
+							   <div class="layui-form-item">
+							       <label class="layui-form-label">新增分类:</label>
+							       <div class="layui-input-block">
+							         <input type="text" lay-verify="required" name="group_name" placeholder="分类名称" autocomplete="off" class="layui-input">
+							   	  </div>
+							     </div> 
+							   
+							   <div class="layui-form-item">
+							       <div class="layui-input-block">
+							         <button type="submit" class="layui-btn"  lay-submit="" lay-filter="addgroup">立即新增</button>
+							       </div>
+							     </div>
+							</form>
+						  
+						   <table class="layui-table">
+						     <colgroup>
+						       <col width="150">
+						       <col width="150"> 
+						     </colgroup>
+						     <thead>
+						       <tr>
+						         <th>分类名称</th>
+						         <th>操作</th>
+						       </tr> 
+						     </thead>
+						     <tbody id="group-tbody">
+						     </tbody>
+						   </table>
+						 </div> 
+		            </div>
+		          </div>
+		</div>
+		<script>	
+		          var answer = 1;
+		          layui.use(['form','element','layer'], function(){
+				  var form = layui.form;
+				  var element = layui.element;
+				  var $ = layui.jquery;
+				  var layer = layui.layer;
+				  initUserAdd();
+				 //layui逻辑代码写到这个下面
+                //单选
+			    form.on('submit(single)', function(data){
+					let requestdata = data.field; //表单json对象。
+			      //写异步逻辑即可
+				   addSingle(requestdata);
+			       return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			    });
+				//填空
+				form.on('submit(blank)', function(data){
+				  let requestdata = data.field; //表单json对象。
+				  //写异步逻辑即可
+				  //新建一个json对象保存from数据。
+				  let requestdata1 = {
+					  group_topic_id: requestdata.group_topic_id,
+					  title: requestdata.title,
+                      title_type: requestdata.title_type,
+					  answerBlank: []
+				  }
+				  //对数据进行处理将多个答案遍历，添加到json中。
+				  let answerblank =  $("input[name='answerBlank']");
+				  $.each(answerblank, (i, n)=>{
+					  let answerThis = $(n);
+					  requestdata1.answerBlank[i] = answerThis.val();
+				  });
+			       addBlank(requestdata1);
+				   return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+				});
+				//添加分类
+				form.on('submit(addgroup)', function(data){
+					let requestdata = data.field; //表单json对象。
+					requestdata.class_id = $("#class_id").val();
+				  //写异步逻辑即可
+				  //添加分类
+				  $.ajax({
+				  	url: "http://127.0.0.1:10001/api/topic/groups/",
+				  	type: "POST",
+					xhrFields: {
+					       withCredentials:true  //支持附带详细信息(带cookie)
+					   },
+					headers:{
+						"Content-type":"application/json;charset=utf-8"
+					},
+					data: JSON.stringify(requestdata),
+				  	success:(res) => {
+						if (res.success) {
+				  		layer.open({
+				  		  title: '提示信息',
+				  		  content: res.message
+				  		    });
+					        ajax();
+				  	    } else {
+						   layer.open({
+						   title: '提示信息',
+						   content: res.message
+						             });
+					          }
+				        }
+				});
+				  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+				});
+				//判断
+				form.on('submit(judgment)', function(data){
+					let requestdata = data.field; //表单json对象。
+				  //写异步逻辑即可
+				   addJudgment(requestdata);
+				   return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+				});
+
+				
+				//填空题动态输入框
+				$("#add").click(()=>{
+					let id = answer+1;
+					let htmldomo = ' <div  id="answer'+id+'" class="layui-form-item">\n' +
+                    '<label class="layui-form-label">'+id+':</label>\n' +
+                    '<div class="layui-input-block">\n' +
+                    '<input type="text" lay-verify="required" name="answerBlank" placeholder="请输入答案" autocomplete="off" class="layui-input">\n' +
+                           '<button onclick="buttonClick(answer'+id+')" type="button" class="layui-btn layui-btn-primary layui-btn-sm">\n' +
+                           '<i class="layui-icon">&#xe640;</i>\n' +
+                           '</button>\n' +
+                         '</div>\n' +
+                       '</div> ';
+					$("#answer"+answer).after(htmldomo);
+					answer++;
+				});
+				
+				$("#group").click(()=>{
+					ajax();
+				});
+				 });
+		</script>
+	</body>
+</html>

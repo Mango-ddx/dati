@@ -1,0 +1,11 @@
+.context{
+	width: 80%;
+	margin: auto;
+}
+.layui-tab-title>li{
+	cursor: pointer;
+}
+
+.role-item{
+	margin: 0;
+}
