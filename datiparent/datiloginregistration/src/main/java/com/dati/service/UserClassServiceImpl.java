@@ -98,7 +98,6 @@ public class UserClassServiceImpl implements UserClassService {
     }
 
 
-    @Override
     public UserResponse login(String username, String password) {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
